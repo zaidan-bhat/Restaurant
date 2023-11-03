@@ -11,4 +11,7 @@ fn main() {
     let restaurant= restaurant.add_order(String::from("Burger"), 2, 1);
 
     restaurant.print_all_orders();
+
+    let restaurant= restaurant.remove_order(1, "Pizza", 1);
+    restaurant.query_table(1);
 }
