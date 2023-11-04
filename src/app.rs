@@ -2,14 +2,15 @@ use std::collections::HashMap;
 use rand::Rng;
 
 #[derive(Debug)]
+pub struct Restaurant {
+    tables: HashMap<u32, HashMap<String, (u32, u32)>>,
+}
+
+#[derive(Debug)]
 pub enum RestaurantError {
     TableNotFound,
     ItemNotFound,
     InsufficientQuantity,
-}
-
-pub struct Restaurant {
-    tables: HashMap<u32, HashMap<String, (u32, u32)>>,
 }
 
 impl Restaurant {
@@ -51,14 +52,16 @@ impl Restaurant {
         }
     }
 
-    pub fn query_item_for_table(&self, table_number: u32, item_name: &str) -> Result<(), RestaurantError> {
+    pub fn query_item_for_table(&self, table_number: u32, item_name: &str) -> Result<String, RestaurantError> {
         if let Some(table_orders) = self.tables.get(&table_number) {
             if let Some((preparation_time, quantity)) = table_orders.get(item_name) {
-                println!(
-                    "Details for Item '{}' at Table {}:\n    Quantity: {}\n    Preparation Time: {}",
-                    item_name, table_number, quantity, preparation_time
-                );
-                Ok(())
+                let result = serde_json::json!({
+                    "item_name": item_name,
+                    "table_number": table_number,
+                    "quantity": quantity,
+                    "preparation_time": preparation_time,
+                });
+                Ok(result.to_string())
             } else {
                 Err(RestaurantError::ItemNotFound)
             }
@@ -67,31 +70,56 @@ impl Restaurant {
         }
     }
     
-    pub fn query_table(&self, table_number: u32) -> Result<(), RestaurantError> {
+    pub fn query_table(&self, table_number: u32) -> Result<String, RestaurantError> {
         if let Some(table_orders) = self.tables.get(&table_number) {
-            println!("Orders for Table {}:", table_number);
-            for (item_name, (preparation_time, quantity)) in table_orders.iter() {
-                println!(
-                    "    * {}: Quantity - {}, Preparation Time - {}",
-                    item_name, quantity, preparation_time
-                );
-            }
-            Ok(())
+            let orders: Vec<_> = table_orders
+                .iter()
+                .map(|(item_name, (preparation_time, quantity))| {
+                    serde_json::json!({
+                        "item_name": item_name,
+                        "quantity": quantity,
+                        "preparation_time": preparation_time,
+                    })
+                })
+                .collect();
+
+            let result = serde_json::json!({
+                "table_number": table_number,
+                "orders": orders,
+            });
+
+            Ok(result.to_string())
         } else {
             Err(RestaurantError::TableNotFound)
         }
     }
 
-    pub fn print_all_orders(&self) {
-        for (table_number, table_orders) in self.tables.iter() {
-            println!("Table {}", table_number);
-            for (item_name, (preparation_time, quantity)) in table_orders.iter() {
-                println!(
-                    "    * {}: Quantity - {}, Preparation Time - {}",
-                    item_name, quantity, preparation_time
-                );
-            }
-        }
+    pub fn show_all_orders(&self) -> Result<String, RestaurantError> {
+        let all_orders: Vec<_> = self.tables
+            .iter()
+            .map(|(table_number, table_orders)| {
+                let orders: Vec<_> = table_orders
+                    .iter()
+                    .map(|(item_name, (preparation_time, quantity))| {
+                        serde_json::json!({
+                            "item_name": item_name,
+                            "quantity": quantity,
+                            "preparation_time": preparation_time,
+                        })
+                    })
+                    .collect();
+
+                serde_json::json!({
+                    "table_number": table_number,
+                    "orders": orders,
+                })
+            })
+            .collect();
+
+        let result = serde_json::json!({
+            "all_orders": all_orders,
+        });
+
+        Ok(result.to_string())
     }
 }
-
