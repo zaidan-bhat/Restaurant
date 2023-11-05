@@ -1,5 +1,9 @@
+[lib]
+name = "restaurant"
+path = "src/app.rs"
+
 [package]
-name = "Restaurant"
+name = "restaurant"
 version = "0.1.0"
 edition = "2021"
 

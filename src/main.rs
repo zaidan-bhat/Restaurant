@@ -1,14 +1,14 @@
 use std::thread;
 use std::sync::Arc;
 
-pub mod app;
+use restaurant::Restaurant;
 fn main() {
 
     // Running tests
     
 
 
-    let restaurant = Arc::new(app::Restaurant::new());
+    let restaurant = Arc::new(Restaurant::new());
 
     // Spawn two threads to perform operations concurrently
     let restaurant_clone = Arc::clone(&restaurant);
