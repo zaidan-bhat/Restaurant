@@ -4,8 +4,6 @@ This repository hosts a restaurant application designed to manage menu items, th
 
 ## Getting Started
 
-To execute the code after cloning the repository, use the following command:
-
 1. **Environment:**
    - Make sure you have rustc and cargo installed
 
@@ -18,6 +16,8 @@ To execute the code after cloning the repository, use the following command:
    ```bash
    $ git checkout main
    ```
+
+To execute the code after cloning the repository, use the following command:
 
 ```bash
 $ cargo run
