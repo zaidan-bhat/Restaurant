@@ -6,6 +6,19 @@ This repository hosts a restaurant application designed to manage menu items, th
 
 To execute the code after cloning the repository, use the following command:
 
+1. **Environment:**
+   - Make sure you have rustc and cargo installed
+
+2. **Clone the repository:**
+   - Clone the repository  using
+   ```bash
+   $ git clone git@github.com:zaidan-bhat/Restaurant.git
+   ```
+   - Checkout to the main Branch using
+   ```bash
+   $ git checkout main
+   ```
+
 ```bash
 $ cargo run
 ```
