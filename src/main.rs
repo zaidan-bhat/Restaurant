@@ -1,6 +1,5 @@
-use crate::app::Restaurant;
+use restaurant::Restaurant;  // Use the Restaurant struct from the app module
 
-pub mod app;
 fn main() {
     let restaurant = Restaurant::new();
 
