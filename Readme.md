@@ -23,6 +23,19 @@ To execute the code after cloning the repository, use the following command:
 $ cargo run
 ```
 
+Expected output:
+
+```bash
+Here are the details of all orders: 
+{"all_orders":[{"orders":[{"item_name":"Pizza","preparation_time":8,"quantity":2},{"item_name":"Salad","preparation_time":5,"quantity":1}],"table_number":1},{"orders":[{"item_name":"Burger","preparation_time":5,"quantity":1}],"table_number":2}]}
+
+ Here are the details of orders for table 1: 
+{"orders":[{"item_name":"Pizza","preparation_time":8,"quantity":1},{"item_name":"Salad","preparation_time":5,"quantity":1}],"table_number":1}
+
+ Here are the details of item Burger for table 2: 
+{"item_name":"Burger","preparation_time":5,"quantity":1,"table_number":2}
+```
+
 ## Implementation Details
 
 The restaurant functionality is implemented using a struct. Order details are stored in a HashMap named "tables," where table numbers map to a HashMap containing item details. The item details are stored as a tuple, including the preparation time and quantity ordered.
